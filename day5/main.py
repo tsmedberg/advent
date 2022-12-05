@@ -2,22 +2,6 @@ import re
 file = open('day5/input')
 lines = file.readlines()
 cargo = [] #first number index, then stack
-containerCount = 0 
-def vizStack(i):
-    text = str(i)+": "
-    for x in cargo[i]:
-        text = text + str(x)
-    print(text)
-def viz():
-    print('-----BEGIN VIZ-----')
-    for i in range(len(cargo)):
-        vizStack(i)
-    print('------END VIZ------')
-def countContainers():
-    count = 0
-    for stack in cargo:
-        count = count + len(stack)
-    return count
 
 def deserialize():
     numberIndex = lines.index('\n')-1
@@ -35,8 +19,6 @@ def deserialize():
                 cargo[id].append(letter)
 def move(isCrateMover9001=False):
     for ln in range(lines.index('\n')+1,len(lines)):
-        if(countContainers() != containerCount):
-            raise Exception('uh oh')
         line = lines[ln].replace('\n','')
         split = line.split(' ')
         amount = int(split[1])
@@ -51,7 +33,6 @@ def move(isCrateMover9001=False):
                 cargo[toStack].append(container)
             cargo[fromStack] = cargo[fromStack][:-amount]
 deserialize()
-containerCount = countContainers()
 move()            
 text = ''
 for stack in cargo:
